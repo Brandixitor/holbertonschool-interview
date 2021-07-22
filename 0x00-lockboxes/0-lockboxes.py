@@ -1,16 +1,21 @@
 #!/usr/bin/python3
-""" Module that containes "canUnlockAll" function"""
 
 
 def canUnlockAll(boxes):
     """ Unlocks all boxes """
+    visited = [False for v in range(len(boxes))]
+    visited[0] = True
+    stack = boxes[0]
 
-listOfKeys = [0]
-    for key in listOfKeys:
-        for k in boxes[key]:
-            if k not in listOfKeys and k < len(boxes):
-                listOfKeys.append(k)
-    for i in range(len(boxes)):
-        if i not in listOfKeys:
-            return False
-    return True
+    while(len(stack)):
+        element = stack[-1]
+        stack.pop()
+        try:
+            if not visited[element]:
+                visited[element] = True
+            for node in boxes[element]:
+                if not visited[node]:
+                    stack.append(node)
+        except:
+            pass
+    return all(visited)
